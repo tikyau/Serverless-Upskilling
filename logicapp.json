@@ -1,0 +1,53 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "HttpTriggerCSharp": {
+                "inputs": {
+                    "function": {
+                        "id": "/subscriptions/c5eb460e-8650-4d67-b6b9-dd737f5fe2c0/resourceGroups/hacker1/providers/Microsoft.Web/sites/hacker1-andy/functions/HttpTriggerCSharp"
+                    },
+                    "method": "GET",
+                    "queries": {
+                        "productId": "@triggerBody()?['productId']"
+                    }
+                },
+                "runAfter": {},
+                "type": "Function"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "@concat(body('HttpTriggerCSharp'), ' and the description is This starfruit ice cream is out of this world!')",
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "HttpTriggerCSharp": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {},
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "properties": {
+                            "productId": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    }
+}
